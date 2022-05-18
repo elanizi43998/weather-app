@@ -1,17 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState,  } from 'react';
 import SearchCard from './SearchCard';
-import { Fade} from 'react-awesome-reveal'
-
+import { Fade } from 'react-awesome-reveal';
 
 function Search() {
-  const [search, setSearch] = useState('rabat');
+  const [search, setSearch] = useState();
   const [searchErr, setSearchErr] = useState();
   const [data, setData] = useState();
   const [imgUrl, setImgUrl] = useState();
   const [imgErr, setImgErr] = useState();
 
   const handleChange = (ev) => {
-    console.log(ev.target.value);
+    if(ev.target.value.trim()===''){
+      setData();
+    }
     setSearch(ev.target.value);
   };
   const handleKey = (ev) => {
@@ -28,9 +29,7 @@ function Search() {
         if (results.ok) {
           return results.json();
         } else {
-          setSearchErr(
-            `The ${search} city might not exist, check again.`
-          );
+          setSearchErr(`The ${search} city might not exist, check again.`);
           setData();
           throw new Error('Something went wrong');
         }
@@ -58,8 +57,8 @@ function Search() {
 
   return (
     <>
-      <div className='flex flex-col items-center justify-center basis-2/5 p-3 rounded-xl gap-3'>
-        <div className='grid grid-cols-2  gap-3 '>
+      <div className='flex flex-col items-center justify-center basis-2/5 p-2 rounded-xl gap-3'>
+        <div className='grid grid-cols-1 w-full sm:grid-cols-2  gap-3 '>
           <input
             type='text'
             placeholder='Weather in your city'
@@ -76,7 +75,7 @@ function Search() {
           {searchErr && <p className='text-red-700'>{searchErr}</p>}
         </div>
         <Fade>
-        {data && <SearchCard data={data} name={search} img={imgUrl} />}
+          {data && <SearchCard data={data} name={search} img={imgUrl} />}
         </Fade>
         {imgErr && <p className='bg-red-700'>{imgErr}</p>}
       </div>
