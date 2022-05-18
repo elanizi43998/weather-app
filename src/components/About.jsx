@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Fade } from 'react-awesome-reveal';
 
+
 function About() {
   return (
     <>
